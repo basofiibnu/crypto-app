@@ -25,7 +25,6 @@ ChartJS.register(
 const { Title: TitleText } = Typography;
 
 const LineChart = ({ coinHistory, currentPrice, coinName }) => {
-  console.log(coinHistory, 'hist');
   const coinPrice = [];
   const coinTimestamp = [];
 
