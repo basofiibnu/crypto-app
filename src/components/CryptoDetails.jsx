@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import HTMLReactParser from 'html-react-parser';
 import { useParams } from 'react-router-dom';
 import millify from 'millify';
-import { Col, Row, Typography, Select } from 'antd';
+import {
+  Col,
+  Row,
+  Typography,
+  Select,
+  Collapse,
+  List,
+  Card,
+} from 'antd';
 import {
   MoneyCollectOutlined,
   DollarCircleOutlined,
@@ -13,6 +21,12 @@ import {
   ThunderboltOutlined,
   NumberOutlined,
   CheckOutlined,
+  FacebookOutlined,
+  YoutubeOutlined,
+  GithubOutlined,
+  RedditOutlined,
+  TwitterOutlined,
+  ChromeOutlined,
 } from '@ant-design/icons';
 
 import {
@@ -22,8 +36,9 @@ import {
 import LineCharts from './LineCharts';
 import Loader from './Loader';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { Option } = Select;
+const { Panel } = Collapse;
 
 const CryptoDetails = () => {
   const { coinId } = useParams();
@@ -74,9 +89,6 @@ const CryptoDetails = () => {
       }`,
       icon: <TrophyOutlined />,
     },
-  ];
-
-  const genericStats = [
     {
       title: 'Number Of Markets',
       value: cryptoDetails?.numberOfMarkets,
@@ -114,10 +126,29 @@ const CryptoDetails = () => {
     },
   ];
 
+  const iconAvatar = (icon) => {
+    switch (icon) {
+      case 'facebook':
+        return <FacebookOutlined />;
+      case 'github':
+        return <GithubOutlined />;
+      case 'reddit':
+        return <RedditOutlined />;
+      case 'youtube':
+        return <YoutubeOutlined />;
+      case 'twitter':
+        return <TwitterOutlined />;
+      default:
+        return <ChromeOutlined />;
+    }
+  };
+
+  console.log(cryptoDetails);
+
   return (
     <Col className="coin-detail-container">
       <Col className="coin-heading-container">
-        <Title level={2} className="coin-name">
+        <Title level={2}>
           {cryptoDetails.name} ({cryptoDetails.symbol}) Price
         </Title>
         <p>
@@ -137,76 +168,91 @@ const CryptoDetails = () => {
           </Option>
         ))}
       </Select>
-
-      <LineCharts
-        coinHistory={coinHistory}
-        currentPrice={millify(cryptoDetails.price)}
-        coinName={cryptoDetails.name}
-      />
-
-      <Col className="stats-container">
-        <Col className="coin-value-statistics">
-          <Col className="coin-value-statistics-heading">
-            <Title level={3} className="coin-details-heading">
-              {cryptoDetails.name} value Statistics!
-            </Title>
-            <p>
-              An overview showing the stats of {cryptoDetails.name}
-            </p>
-          </Col>
-          {stats.map(({ icon, title, value }, i) => (
-            <Col className="coin-stats" key={i}>
-              <Col className="coin-stats-name">
-                <Text>{icon}</Text>
-                <Text>{title}</Text>
-              </Col>
-              <Text className="stats">{value}</Text>
-            </Col>
-          ))}
+      <Row style={{ marginTop: '1rem' }}>
+        <Col xs={24} sm={24} md={24} lg={24}>
+          <LineCharts
+            coinHistory={coinHistory}
+            currentPrice={millify(cryptoDetails.price)}
+            coinName={cryptoDetails.name}
+          />
         </Col>
+      </Row>
 
-        <Col className="other-stats-info">
-          <Col className="coin-value-statistics-heading">
-            <Title level={3} className="coin-details-heading">
-              Other Statistics!
-            </Title>
-            <p>An overview show the stats of all cryptocurrencies</p>
-          </Col>
-          {genericStats.map(({ icon, title, value }, i) => (
-            <Col className="coin-stats" key={i}>
-              <Col className="coin-stats-name">
-                <Text>{icon}</Text>
-                <Text>{title}</Text>
-              </Col>
-              <Text className="stats">{value}</Text>
-            </Col>
-          ))}
+      <Row gutter={[12, 12]} className="coin-desc-link">
+        <Col xs={24} sm={24} md={11} lg={7}>
+          <Collapse accordion defaultActiveKey={'1'}>
+            <Panel header={`What is ${cryptoDetails.name}`} key="1">
+              <p>{HTMLReactParser(cryptoDetails.description)}</p>
+            </Panel>
+          </Collapse>
         </Col>
-      </Col>
-
-      <Col className="coin-desc-link">
-        <Row className="coin-desc">
-          <Title level={3} className="coin-details-heading">
-            What is {cryptoDetails.name}
-            {HTMLReactParser(cryptoDetails.description)}
-          </Title>
-        </Row>
-        <Col className="coin-links">
-          <Title level={3} className="coin-details-heading">
-            {cryptoDetails.name} Links
-          </Title>
-          {cryptoDetails.links.map((link, i) => (
-            <Row className="coin-link" key={i}>
-              <Title level={5} className="link-name">
-                {link.type}
-              </Title>
-              <a href={link.url} target="_blank" rel="noreferrer">
-                {link.name}
-              </a>
-            </Row>
-          ))}
+        <Col xs={24} sm={24} md={11} lg={7}>
+          <Card className="coin-desc-link__list-container">
+            <List
+              itemLayout="horizontal"
+              dataSource={stats}
+              header={
+                <Title level={4}>
+                  {cryptoDetails.name} Statistics
+                </Title>
+              }
+              renderItem={(item) => (
+                <List.Item>
+                  <List.Item.Meta
+                    style={{ alignItems: 'center' }}
+                    avatar={item.icon}
+                    title={
+                      <span style={{ textTransform: 'capitalize' }}>
+                        {item.title}
+                      </span>
+                    }
+                    description={
+                      <span style={{ wordBreak: 'break-all' }}>
+                        {item.value}
+                      </span>
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          </Card>
         </Col>
-      </Col>
+        <Col xs={24} sm={24} md={11} lg={8}>
+          <Card className="coin-desc-link__list-container">
+            <List
+              itemLayout="horizontal"
+              dataSource={cryptoDetails.links}
+              header={
+                <Title level={4}>{cryptoDetails.name} Links</Title>
+              }
+              renderItem={(item) => (
+                <List.Item>
+                  <List.Item.Meta
+                    style={{ alignItems: 'center' }}
+                    avatar={iconAvatar(item.type)}
+                    title={
+                      <a
+                        href={item.url}
+                        style={{ textTransform: 'capitalize' }}
+                      >
+                        {item.type}
+                      </a>
+                    }
+                    description={
+                      <a
+                        href={item.url}
+                        style={{ wordBreak: 'break-all' }}
+                      >
+                        {item.url}
+                      </a>
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          </Card>
+        </Col>
+      </Row>
     </Col>
   );
 };

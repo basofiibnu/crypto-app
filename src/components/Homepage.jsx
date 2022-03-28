@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic } from 'antd';
+import { Typography, Row, Col, Statistic, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import Cryptocurrencies from './Cryptocurrencies';
@@ -16,39 +16,34 @@ const Homepage = () => {
   if (isFetching) return <Loader />;
   return (
     <Fragment>
-      <Title level={2} className="heading">
+      <Title level={2} className="home-title">
         Global Crypto Stats
       </Title>
-      <Row>
-        <Col span={12}>
-          <Statistic
-            title="Total Cryptocurrencies"
-            value={globalStats.total}
-          />
+      <Row gutter={[24, 24]}>
+        <Col xs={24} sm={12} md={8} lg={5} className="statistic-card">
+          <Card title="Total Cryptocurrencies" hoverable>
+            <Statistic value={globalStats.total} />
+          </Card>
         </Col>
-        <Col span={12}>
-          <Statistic
-            title="Total Exchanges"
-            value={millify(globalStats.totalExchanges)}
-          />
+        <Col xs={24} sm={12} md={8} lg={5} className="statistic-card">
+          <Card title="Total Exchanges" hoverable>
+            <Statistic value={millify(globalStats.totalExchanges)} />
+          </Card>
         </Col>
-        <Col span={12}>
-          <Statistic
-            title="Total Market Cap"
-            value={millify(globalStats.totalMarketCap)}
-          />
+        <Col xs={24} sm={12} md={8} lg={5} className="statistic-card">
+          <Card title="Total Market Cap" hoverable>
+            <Statistic value={millify(globalStats.totalMarketCap)} />
+          </Card>
         </Col>
-        <Col span={12}>
-          <Statistic
-            title="Total 24h Volume"
-            value={millify(globalStats.total24hVolume)}
-          />
+        <Col xs={24} sm={12} md={8} lg={5} className="statistic-card">
+          <Card title="Total 24h Volume" hoverable>
+            <Statistic value={millify(globalStats.total24hVolume)} />
+          </Card>
         </Col>
-        <Col span={12}>
-          <Statistic
-            title="Total Markets"
-            value={millify(globalStats.totalMarkets)}
-          />
+        <Col xs={24} sm={12} md={8} lg={4} className="statistic-card">
+          <Card title="Total Markets" hoverable>
+            <Statistic value={millify(globalStats.totalMarkets)} />
+          </Card>
         </Col>
       </Row>
       <div className="home-heading-container">

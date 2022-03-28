@@ -50,6 +50,9 @@ a:hover {
   align-items: center;
   width: 100%;
 }
+.logo h2 {
+  margin-bottom: 0;
+}
 .logo {
   margin: 0 0 0 15px;
 }
@@ -71,6 +74,13 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.home-title {
+  font-size: 1.4rem !important;
+}
+.show-more {
+  font-size: 1.1rem !important;
 }
 
 @media screen and (max-width: 1300px) {
@@ -360,6 +370,9 @@ a:hover {
 .crypto-card {
   min-width: 250px;
 }
+.statistic-card {
+  /* min-width: 200px; */
+}
 .crypto-card .crypto-image {
   width: 35px;
 }
@@ -374,4 +387,11 @@ a:hover {
   flex-direction: column;
   padding: 20px;
   align-items: center;
+}
+
+.coin-desc-link__list-container {
+  padding: 12px 24px !important;
+}
+.coin-desc-link__list-container .ant-card-body {
+  padding: 0;
 }

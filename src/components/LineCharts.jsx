@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { Col, Row, Typography } from 'antd';
+import { Col, Row, Typography, Card } from 'antd';
 
 ChartJS.register(
   CategoryScale,
@@ -65,23 +65,35 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
     },
   };
 
-  return (
-    <>
+  const titleContent = () => {
+    return (
       <Row className="chart-header">
-        <TitleText level={2} className="chart-title">
-          {coinName} Price Chart{' '}
-        </TitleText>
-        <Col className="price-container">
-          <TitleText level={5} className="price-change">
+        <Col>
+          <TitleText level={3}>{coinName} Price Chart </TitleText>
+        </Col>
+        <Col
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 20,
+          }}
+        >
+          <TitleText level={5} style={{ margin: 0 }}>
             Change: {coinHistory?.data?.change}%
           </TitleText>
-          <TitleText level={5} className="current-price">
+          <TitleText level={5} style={{ margin: 0 }}>
             Current {coinName} Price: $ {currentPrice}
           </TitleText>
         </Col>
       </Row>
+    );
+  };
+
+  return (
+    <Card title={titleContent()}>
       <Line data={data} options={options} />
-    </>
+    </Card>
   );
 };
 
